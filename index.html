@@ -583,6 +583,44 @@
     .inv-warn { color:#f59e0b; } .inv-crit { color:#ef4444; }
     .inv-sum-lbl { font-size:0.6rem; text-transform:uppercase; letter-spacing:0.08em; color:#bbb; font-weight:600; margin-top:0.1rem; }
 
+    /* WEBSITE POPUP */
+    .web-overlay { position:fixed; inset:0; z-index:800; display:flex; align-items:center; justify-content:center; background:rgba(28,28,30,0.52); opacity:0; visibility:hidden; transition:opacity 0.25s,visibility 0.25s; }
+    .web-overlay.open { opacity:1; visibility:visible; }
+    .web-box { background:#fff; border-radius:20px; padding:2rem; width:min(600px,92vw); max-height:88vh; overflow-y:auto; box-shadow:0 24px 64px rgba(0,0,0,0.18); transform:scale(0.93); transition:transform 0.28s cubic-bezier(0.32,0.72,0,1); }
+    .web-overlay.open .web-box { transform:scale(1); }
+    .web-mhdr { display:flex; align-items:center; justify-content:space-between; margin-bottom:1.5rem; }
+    .web-mtitle-row { display:flex; align-items:center; gap:0.75rem; }
+    .web-icon { width:32px; height:32px; border-radius:8px; background:#eff6ff; color:#3b82f6; display:flex; align-items:center; justify-content:center; font-size:1rem; }
+    .web-mtitle { font-size:1rem; font-weight:700; color:#1c1c1e; }
+    .web-mclose { width:32px; height:32px; border-radius:8px; border:1.5px solid #e8e4de; background:transparent; cursor:pointer; font-size:1rem; color:#888; display:flex; align-items:center; justify-content:center; transition:color 0.15s,border-color 0.15s,background 0.15s; }
+    .web-mclose:hover { color:#e05c2e; border-color:#e05c2e; background:#fef3ee; }
+    .web-browser { border:1.5px solid #e8e4de; border-radius:12px; overflow:hidden; }
+    .web-chrome { background:#f5f4f2; padding:0.6rem 0.85rem; display:flex; align-items:center; gap:0.65rem; border-bottom:1px solid #e8e4de; }
+    .web-dots { display:flex; gap:5px; }
+    .web-dot { width:10px; height:10px; border-radius:50%; }
+    .web-dot:nth-child(1){background:#ff5f57;} .web-dot:nth-child(2){background:#ffbd2e;} .web-dot:nth-child(3){background:#28c840;}
+    .web-url { flex:1; background:#fff; border:1px solid #e0e0e0; border-radius:6px; padding:0.22rem 0.65rem; font-size:0.72rem; color:#888; font-family:monospace; }
+    .web-preview { background:#fff; padding:1.25rem 1.5rem; }
+    .web-nav { display:flex; align-items:center; justify-content:space-between; margin-bottom:1.5rem; opacity:0; }
+    .web-nav.show { animation:dmFade 0.35s ease forwards; }
+    .web-brand { font-size:1rem; font-weight:800; color:#1c1c1e; letter-spacing:-0.02em; }
+    .web-brand span { color:#e05c2e; }
+    .web-nav-links { display:flex; gap:1rem; }
+    .web-nav-link { font-size:0.72rem; color:#888; font-weight:500; }
+    .web-hero { margin-bottom:1.5rem; }
+    .web-hero-tag { font-size:0.65rem; font-weight:700; text-transform:uppercase; letter-spacing:0.1em; color:#e05c2e; margin-bottom:0.4rem; }
+    .web-hero-h1 { font-size:1.3rem; font-weight:800; color:#1c1c1e; line-height:1.25; margin-bottom:0.5rem; min-height:1.6rem; }
+    .web-hero-sub { font-size:0.8rem; color:#999; line-height:1.55; opacity:0; }
+    .web-hero-sub.show { animation:dmFade 0.4s ease forwards; }
+    .web-hero-btn { display:inline-block; margin-top:0.85rem; background:#e05c2e; color:#fff; font-size:0.75rem; font-weight:700; padding:0.45rem 1.1rem; border-radius:8px; opacity:0; }
+    .web-hero-btn.show { animation:dmFade 0.35s ease forwards; }
+    .web-services { display:grid; grid-template-columns:repeat(3,1fr); gap:0.65rem; }
+    .web-svc { background:#fafafa; border:1px solid #f0efed; border-radius:10px; padding:0.75rem; text-align:center; opacity:0; }
+    .web-svc.show { animation:dmFade 0.35s ease forwards; }
+    .web-svc-icon { font-size:1.2rem; margin-bottom:0.35rem; }
+    .web-svc-title { font-size:0.75rem; font-weight:700; color:#1c1c1e; }
+    .web-svc-desc { font-size:0.65rem; color:#aaa; margin-top:0.15rem; line-height:1.4; }
+
     /* BAR CHARTS */
     .inv-chart, .sh-chart { margin-top:1.25rem; opacity:0; }
     .inv-chart.show, .sh-chart.show { animation:dmFade 0.4s ease forwards; }
@@ -803,13 +841,13 @@
         <div class="pcard-demo"></div>
       </div>
 
-      <div class="pcard pc6" data-demo="mlb">
+      <div class="pcard pc6" data-demo="website">
         <div class="pcard-face">
           <div class="pcard-header">
-            <div class="pcard-icon"><i class="ti ti-trending-up" aria-hidden="true"></i></div>
+            <div class="pcard-icon"><i class="ti ti-world" aria-hidden="true"></i></div>
           </div>
-          <div class="pcard-title">MLB Website</div>
-          <div class="pcard-desc">Clean, custom MLB website built from scratch — team info, stats, and a polished layout designed for baseball fans.</div>
+          <div class="pcard-title">Business Websites</div>
+          <div class="pcard-desc">Custom websites built from scratch — clean design, responsive layout, and everything your business needs to look professional online.</div>
           <div class="pcard-tags">
             <span class="tag">HTML</span><span class="tag">CSS</span><span class="tag">JavaScript</span>
           </div>
@@ -881,6 +919,46 @@
       <div class="trust-item"><i class="ti ti-circle-check" aria-hidden="true"></i>No surprises</div>
     </div>
     <button class="bottom-cta">Start a Project &rarr;</button>
+  </div>
+
+  <!-- WEBSITE POPUP -->
+  <div class="web-overlay" id="web-overlay">
+    <div class="web-box">
+      <div class="web-mhdr">
+        <div class="web-mtitle-row">
+          <div class="web-icon"><i class="ti ti-world" aria-hidden="true"></i></div>
+          <span class="web-mtitle">Business Website</span>
+        </div>
+        <button class="web-mclose" id="web-close">&#10005;</button>
+      </div>
+      <div class="web-browser">
+        <div class="web-chrome">
+          <div class="web-dots"><div class="web-dot"></div><div class="web-dot"></div><div class="web-dot"></div></div>
+          <div class="web-url" id="web-url">Loading&hellip;</div>
+        </div>
+        <div class="web-preview">
+          <div class="web-nav" id="web-nav">
+            <div class="web-brand">Peak<span>Pro</span></div>
+            <div class="web-nav-links">
+              <span class="web-nav-link">Services</span>
+              <span class="web-nav-link">About</span>
+              <span class="web-nav-link">Contact</span>
+            </div>
+          </div>
+          <div class="web-hero">
+            <div class="web-hero-tag">Remote &bull; Professional &bull; Reliable</div>
+            <div class="web-hero-h1" id="web-h1"></div>
+            <div class="web-hero-sub" id="web-sub">We handle the tech so you can focus on running your business. Fast turnaround, flat-rate pricing, no surprises.</div>
+            <div class="web-hero-btn" id="web-btn">Get a Free Quote &rarr;</div>
+          </div>
+          <div class="web-services">
+            <div class="web-svc" id="wsvc0"><div class="web-svc-icon">&#128187;</div><div class="web-svc-title">Web Design</div><div class="web-svc-desc">Clean, modern sites built from scratch</div></div>
+            <div class="web-svc" id="wsvc1"><div class="web-svc-icon">&#9881;</div><div class="web-svc-title">Automation</div><div class="web-svc-desc">Scripts that save you hours every week</div></div>
+            <div class="web-svc" id="wsvc2"><div class="web-svc-icon">&#128202;</div><div class="web-svc-title">Data Tools</div><div class="web-svc-desc">Dashboards, reports, and spreadsheets</div></div>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
 
   <!-- INVENTORY POPUP -->
@@ -1310,36 +1388,6 @@
         }
       },
 
-      mlb: {
-        html() {
-          return closeBtn + `
-            <div class="mlb-board">
-              <div class="mlb-inn">Final &bull; 9 Innings</div>
-              <div class="mlb-row">
-                <div><div class="mlb-abbr">NYY</div><div class="mlb-city">New York Yankees</div></div>
-                <div class="mlb-score" id="ms1">0</div>
-              </div>
-              <div class="mlb-row">
-                <div><div class="mlb-abbr">BOS</div><div class="mlb-city">Boston Red Sox</div></div>
-                <div class="mlb-score dim" id="ms2">0</div>
-              </div>
-              <div class="mlb-stats" id="mlb-stats">
-                <div class="mlb-stat"><div class="mlb-sv">14</div><div class="mlb-sl">Hits</div></div>
-                <div class="mlb-stat"><div class="mlb-sv">1</div><div class="mlb-sl">Errors</div></div>
-                <div class="mlb-stat"><div class="mlb-sv">3</div><div class="mlb-sl">HR</div></div>
-              </div>
-            </div>`;
-        },
-        run() {
-          function countUp(el, target, ms) {
-            let n = 0;
-            const iv = setInterval(() => { el.textContent = ++n; if (n >= target) clearInterval(iv); }, Math.max(30, ms/target));
-          }
-          setTimeout(() => countUp(document.getElementById('ms1'), 7, 650), 400);
-          setTimeout(() => countUp(document.getElementById('ms2'), 3, 450), 750);
-          setTimeout(() => document.getElementById('mlb-stats').classList.add('show'), 1700);
-        }
-      }
 
     };
 
@@ -1631,7 +1679,35 @@
       document.getElementById('ct-count').textContent = visible + ' contact' + (visible !== 1 ? 's' : '');
     });
 
-    document.addEventListener('keydown', e => { if (e.key === 'Escape') { closeAts(); closeSheets(); closeCli(); closeBj(); closeCfu(); closeInv(); closeCt(); } });
+    function openWebsite() {
+      document.getElementById('web-nav').classList.remove('show');
+      document.getElementById('web-sub').classList.remove('show');
+      document.getElementById('web-btn').classList.remove('show');
+      [0,1,2].forEach(i => document.getElementById('wsvc'+i).classList.remove('show'));
+      document.getElementById('web-h1').textContent = '';
+      document.getElementById('web-url').textContent = 'Loading…';
+      document.getElementById('web-overlay').classList.add('open');
+      document.body.style.overflow = 'hidden';
+      setTimeout(() => { document.getElementById('web-url').textContent = 'www.peakpro.com'; }, 400);
+      setTimeout(() => { document.getElementById('web-nav').classList.add('show'); }, 600);
+      const headline = 'Your Business, Online & Professional.';
+      const h1 = document.getElementById('web-h1');
+      let ci = 0;
+      setTimeout(() => {
+        const iv = setInterval(() => { h1.textContent = headline.slice(0, ++ci); if (ci >= headline.length) clearInterval(iv); }, 36);
+      }, 900);
+      setTimeout(() => { document.getElementById('web-sub').classList.add('show'); }, 900 + headline.length * 36 + 100);
+      setTimeout(() => { document.getElementById('web-btn').classList.add('show'); }, 900 + headline.length * 36 + 350);
+      [0,1,2].forEach(i => setTimeout(() => document.getElementById('wsvc'+i).classList.add('show'), 900 + headline.length * 36 + 600 + i * 120));
+    }
+    function closeWebsite() {
+      document.getElementById('web-overlay').classList.remove('open');
+      document.body.style.overflow = '';
+    }
+    document.getElementById('web-close').addEventListener('click', closeWebsite);
+    document.getElementById('web-overlay').addEventListener('click', e => { if (e.target === e.currentTarget) closeWebsite(); });
+
+    document.addEventListener('keydown', e => { if (e.key === 'Escape') { closeAts(); closeSheets(); closeCli(); closeBj(); closeCfu(); closeInv(); closeCt(); closeWebsite(); } });
 
     document.querySelectorAll('.pcard[data-demo]').forEach(card => {
       card.addEventListener('click', () => {
@@ -1640,6 +1716,7 @@
         if (card.dataset.demo === 'cli') { openCli(); return; }
         if (card.dataset.demo === 'blackjack') { openBj(); return; }
         if (card.dataset.demo === 'connectfour') { openCfu(); return; }
+        if (card.dataset.demo === 'website') { openWebsite(); return; }
         if (card.dataset.demo === 'inventory') { openInv(); return; }
         if (card.dataset.demo === 'contacts') { openCt(); return; }
         if (card.classList.contains('demo-open')) return;
