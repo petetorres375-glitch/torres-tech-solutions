@@ -420,6 +420,37 @@
     .ats-rec:last-child { margin-bottom:0; }
     .ats-rec-dot { width:5px; height:5px; border-radius:50%; background:#e05c2e; flex-shrink:0; margin-top:0.45rem; }
 
+    /* SHEETS POPUP */
+    .sh-overlay { position:fixed; inset:0; z-index:800; display:flex; align-items:center; justify-content:center; background:rgba(28,28,30,0.52); opacity:0; visibility:hidden; transition:opacity 0.25s,visibility 0.25s; }
+    .sh-overlay.open { opacity:1; visibility:visible; }
+    .sh-box { background:#fff; border-radius:20px; padding:2rem; width:min(640px,92vw); max-height:88vh; overflow-y:auto; box-shadow:0 24px 64px rgba(0,0,0,0.18); transform:scale(0.93); transition:transform 0.28s cubic-bezier(0.32,0.72,0,1); }
+    .sh-overlay.open .sh-box { transform:scale(1); }
+    .sh-mhdr { display:flex; align-items:center; justify-content:space-between; margin-bottom:1.5rem; }
+    .sh-mtitle-row { display:flex; align-items:center; gap:0.75rem; }
+    .sh-icon { width:32px; height:32px; border-radius:8px; background:#e6f4ea; color:#1a7340; display:flex; align-items:center; justify-content:center; font-size:1rem; }
+    .sh-mtitle { font-size:1rem; font-weight:700; color:#1c1c1e; }
+    .sh-mclose { width:32px; height:32px; border-radius:8px; border:1.5px solid #e8e4de; background:transparent; cursor:pointer; font-size:1rem; color:#888; display:flex; align-items:center; justify-content:center; transition:color 0.15s,border-color 0.15s,background 0.15s; }
+    .sh-mclose:hover { color:#e05c2e; border-color:#e05c2e; background:#fef3ee; }
+    .sh-prog-wrap { background:#f5f4f2; border-radius:6px; height:6px; overflow:hidden; margin-bottom:0.4rem; }
+    .sh-prog-bar { height:100%; background:linear-gradient(90deg,#34a853,#4ade80); width:0%; border-radius:6px; transition:width 2.2s linear; }
+    .sh-prog-meta { display:flex; justify-content:space-between; font-size:0.72rem; color:#888; margin-bottom:1.25rem; }
+    .sh-table-wrap { border:1px solid #e8e8e8; border-radius:10px; overflow:hidden; margin-bottom:1.25rem; }
+    .sh-grid { width:100%; border-collapse:collapse; font-size:0.8rem; }
+    .sh-grid thead th { background:#f8f9fa; color:#666; font-weight:700; padding:0.4rem 0.75rem; border-bottom:1px solid #e8e8e8; text-align:left; font-size:0.7rem; letter-spacing:0.04em; text-transform:uppercase; }
+    .sh-rn { background:#f8f9fa !important; color:#bbb !important; font-size:0.7rem; width:28px; text-align:center !important; border-right:1px solid #efefef; }
+    .sh-grid td { padding:0.45rem 0.75rem; border-bottom:1px solid #f0f0f0; color:#1c1c1e; opacity:0; }
+    .sh-row:last-child td { border-bottom:none; }
+    .sh-row.show td { animation:shRowIn 0.55s ease forwards; }
+    @keyframes shRowIn { 0%{opacity:0;background:#fef3ee} 45%{opacity:1;background:#fef3ee} 100%{opacity:1;background:transparent} }
+    .sh-badge { background:#dcfce7; color:#166534; border-radius:50px; padding:0.12rem 0.55rem; font-size:0.72rem; font-weight:700; }
+    .sh-summary { display:flex; background:#fafafa; border-radius:10px; overflow:hidden; opacity:0; }
+    .sh-summary.show { animation:dmFade 0.4s ease forwards; }
+    .sh-sum-item { flex:1; padding:0.75rem 1rem; text-align:center; border-right:1px solid #efefef; }
+    .sh-sum-item:last-child { border-right:none; }
+    .sh-sum-v { font-size:0.95rem; font-weight:800; color:#1c1c1e; }
+    .sh-sum-v.ok { color:#22c55e; font-size:1.1rem; }
+    .sh-sum-l { font-size:0.62rem; text-transform:uppercase; letter-spacing:0.08em; color:#bbb; font-weight:600; margin-top:0.1rem; }
+
     @media (max-width:768px) {
       .hero { grid-template-columns:1fr; }
       .hero-stats { display:none; }
@@ -679,6 +710,46 @@
     </div>
   </div>
 
+  <!-- SHEETS POPUP -->
+  <div class="sh-overlay" id="sh-overlay">
+    <div class="sh-box">
+      <div class="sh-mhdr">
+        <div class="sh-mtitle-row">
+          <div class="sh-icon"><i class="ti ti-table" aria-hidden="true"></i></div>
+          <span class="sh-mtitle">Google Sheets Automation</span>
+        </div>
+        <button class="sh-mclose" id="sh-close">&#10005;</button>
+      </div>
+      <div class="sh-prog-wrap"><div class="sh-prog-bar" id="sh-prog"></div></div>
+      <div class="sh-prog-meta"><span id="sh-prog-lbl">Running script&hellip;</span><span id="sh-prog-count">0 / 4</span></div>
+      <div class="sh-table-wrap">
+        <table class="sh-grid">
+          <thead>
+            <tr>
+              <th class="sh-rn">#</th>
+              <th>Name</th>
+              <th>Email</th>
+              <th>Company</th>
+              <th>Status</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr class="sh-row" id="sh-r0"><td class="sh-rn">1</td><td>Alice W.</td><td>alice@acme.com</td><td>Acme Co.</td><td><span class="sh-badge">Done</span></td></tr>
+            <tr class="sh-row" id="sh-r1"><td class="sh-rn">2</td><td>Bob K.</td><td>bob@corp.com</td><td>Corp Inc.</td><td><span class="sh-badge">Done</span></td></tr>
+            <tr class="sh-row" id="sh-r2"><td class="sh-rn">3</td><td>Carol M.</td><td>carol@startup.io</td><td>StartupX</td><td><span class="sh-badge">Done</span></td></tr>
+            <tr class="sh-row" id="sh-r3"><td class="sh-rn">4</td><td>Dave R.</td><td>dave@bigco.com</td><td>BigCo</td><td><span class="sh-badge">Done</span></td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="sh-summary" id="sh-summary">
+        <div class="sh-sum-item"><div class="sh-sum-v">4</div><div class="sh-sum-l">Rows Written</div></div>
+        <div class="sh-sum-item"><div class="sh-sum-v">0</div><div class="sh-sum-l">Errors</div></div>
+        <div class="sh-sum-item"><div class="sh-sum-v">~2.3s</div><div class="sh-sum-l">Runtime</div></div>
+        <div class="sh-sum-item"><div class="sh-sum-v ok">&#10003;</div><div class="sh-sum-l">Complete</div></div>
+      </div>
+    </div>
+  </div>
+
   <script>
     // scroll-in
     const observer = new IntersectionObserver(entries => {
@@ -863,11 +934,41 @@
     }
     document.getElementById('ats-close').addEventListener('click', closeAts);
     document.getElementById('ats-overlay').addEventListener('click', e => { if (e.target === e.currentTarget) closeAts(); });
-    document.addEventListener('keydown', e => { if (e.key === 'Escape') closeAts(); });
+
+    function openSheets() {
+      document.querySelectorAll('.sh-row').forEach(el => el.classList.remove('show'));
+      const prog = document.getElementById('sh-prog');
+      prog.style.transition = 'none'; prog.style.width = '0%';
+      document.getElementById('sh-summary').classList.remove('show');
+      document.getElementById('sh-prog-lbl').textContent = 'Running script…';
+      document.getElementById('sh-prog-count').textContent = '0 / 4';
+      document.getElementById('sh-overlay').classList.add('open');
+      document.body.style.overflow = 'hidden';
+      setTimeout(() => { prog.style.transition = 'width 2.2s linear'; prog.style.width = '100%'; }, 80);
+      [0,1,2,3].forEach(i => {
+        setTimeout(() => {
+          document.getElementById('sh-r'+i).classList.add('show');
+          document.getElementById('sh-prog-count').textContent = (i+1) + ' / 4';
+        }, 380 + i*430);
+      });
+      setTimeout(() => {
+        document.getElementById('sh-prog-lbl').textContent = 'Complete';
+        document.getElementById('sh-summary').classList.add('show');
+      }, 380 + 4*430 + 180);
+    }
+    function closeSheets() {
+      document.getElementById('sh-overlay').classList.remove('open');
+      document.body.style.overflow = '';
+    }
+    document.getElementById('sh-close').addEventListener('click', closeSheets);
+    document.getElementById('sh-overlay').addEventListener('click', e => { if (e.target === e.currentTarget) closeSheets(); });
+
+    document.addEventListener('keydown', e => { if (e.key === 'Escape') { closeAts(); closeSheets(); } });
 
     document.querySelectorAll('.pcard[data-demo]').forEach(card => {
       card.addEventListener('click', () => {
         if (card.dataset.demo === 'ats') { openAts(); return; }
+        if (card.dataset.demo === 'sheets') { openSheets(); return; }
         if (card.classList.contains('demo-open')) return;
         const d = demos[card.dataset.demo];
         if (!d) return;
