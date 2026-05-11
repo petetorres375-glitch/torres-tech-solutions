@@ -451,6 +451,34 @@
     .sh-sum-v.ok { color:#22c55e; font-size:1.1rem; }
     .sh-sum-l { font-size:0.62rem; text-transform:uppercase; letter-spacing:0.08em; color:#bbb; font-weight:600; margin-top:0.1rem; }
 
+    /* CLI POPUP */
+    .clp-overlay { position:fixed; inset:0; z-index:800; display:flex; align-items:center; justify-content:center; background:rgba(28,28,30,0.52); opacity:0; visibility:hidden; transition:opacity 0.25s,visibility 0.25s; }
+    .clp-overlay.open { opacity:1; visibility:visible; }
+    .clp-box { background:#fff; border-radius:20px; padding:2rem; width:min(600px,92vw); max-height:88vh; overflow-y:auto; box-shadow:0 24px 64px rgba(0,0,0,0.18); transform:scale(0.93); transition:transform 0.28s cubic-bezier(0.32,0.72,0,1); }
+    .clp-overlay.open .clp-box { transform:scale(1); }
+    .clp-mhdr { display:flex; align-items:center; justify-content:space-between; margin-bottom:1.5rem; }
+    .clp-mtitle { font-size:1rem; font-weight:700; color:#1c1c1e; }
+    .clp-mclose { width:32px; height:32px; border-radius:8px; border:1.5px solid #e8e4de; background:transparent; cursor:pointer; font-size:1rem; color:#888; display:flex; align-items:center; justify-content:center; transition:color 0.15s,border-color 0.15s,background 0.15s; }
+    .clp-mclose:hover { color:#e05c2e; border-color:#e05c2e; background:#fef3ee; }
+    .clp-term { background:#1e1e2e; border-radius:12px; overflow:hidden; margin-bottom:1.25rem; font-family:'Space Grotesk','Courier New',monospace; }
+    .clp-term-bar { background:#2a2a3c; padding:0.65rem 1rem; display:flex; align-items:center; gap:6px; }
+    .clp-term-dot { width:10px; height:10px; border-radius:50%; }
+    .clp-term-dot:nth-child(1){background:#ff5f56} .clp-term-dot:nth-child(2){background:#ffbd2e} .clp-term-dot:nth-child(3){background:#27c93f}
+    .clp-term-title { margin-left:auto; font-size:0.7rem; color:#4b4b6a; font-family:'Space Grotesk',sans-serif; letter-spacing:0.03em; }
+    .clp-term-body { padding:1.25rem 1.5rem; min-height:190px; font-size:0.82rem; line-height:1.75; }
+    .clp-ln { min-height:1.45em; color:#71717a; }
+    .clp-ln.cmd  { color:#e4e4e7; }
+    .clp-ln.ok   { color:#4ade80; }
+    .clp-ln.info { color:#7dd3fc; }
+    .clp-ln.show { animation:dmFade 0.2s ease forwards; }
+    .clp-cur { display:inline-block; width:7px; height:13px; background:#4ade80; vertical-align:middle; margin-left:1px; animation:dmBlink 1s step-end infinite; }
+    .clp-output { display:flex; align-items:center; gap:1rem; background:#fafafa; border-radius:10px; padding:0.85rem 1.1rem; opacity:0; border:1px solid #f0efed; }
+    .clp-output.show { animation:dmFade 0.4s ease forwards; }
+    .clp-file-icon { width:34px; height:42px; background:#e05c2e; border-radius:5px; display:flex; align-items:flex-end; justify-content:center; padding-bottom:5px; color:#fff; font-size:0.58rem; font-weight:800; letter-spacing:0.04em; flex-shrink:0; clip-path:polygon(0 0,75% 0,100% 25%,100% 100%,0 100%); }
+    .clp-file-name { font-size:0.88rem; font-weight:700; color:#1c1c1e; }
+    .clp-file-meta { font-size:0.72rem; color:#888; margin-top:0.1rem; }
+    .clp-new { font-size:0.66rem; font-weight:700; background:#fef3ee; color:#c44d24; border-radius:6px; padding:0.15rem 0.45rem; margin-left:0.4rem; vertical-align:middle; }
+
     @media (max-width:768px) {
       .hero { grid-template-columns:1fr; }
       .hero-stats { display:none; }
@@ -710,6 +738,39 @@
     </div>
   </div>
 
+  <!-- CLI POPUP -->
+  <div class="clp-overlay" id="clp-overlay">
+    <div class="clp-box">
+      <div class="clp-mhdr">
+        <span class="clp-mtitle">Python Scripts &mdash; CV Generator</span>
+        <button class="clp-mclose" id="clp-close">&#10005;</button>
+      </div>
+      <div class="clp-term">
+        <div class="clp-term-bar">
+          <div class="clp-term-dot"></div><div class="clp-term-dot"></div><div class="clp-term-dot"></div>
+          <span class="clp-term-title">cv_generator.py</span>
+        </div>
+        <div class="clp-term-body">
+          <div class="clp-ln cmd" id="clp-cmd">&nbsp;</div>
+          <div class="clp-ln" id="clp-l1" style="opacity:0;">&gt; Loading resume.json&hellip;</div>
+          <div class="clp-ln" id="clp-l2" style="opacity:0;">&gt; Sections: Summary &middot; Experience &middot; Skills</div>
+          <div class="clp-ln" id="clp-l3" style="opacity:0;">&gt; Template: professional</div>
+          <div class="clp-ln" id="clp-l4" style="opacity:0;">&gt; Generating PDF&hellip;</div>
+          <div class="clp-ln" id="clp-prog" style="opacity:0;">&nbsp;&nbsp;<span id="clp-prog-bar"></span></div>
+          <div class="clp-ln ok" id="clp-l5" style="opacity:0;">&#10003; pete_torres_resume.pdf &mdash; 2 pages</div>
+          <div class="clp-ln ok" id="clp-l6" style="opacity:0;">&#10003; Completed in 1.2s<span class="clp-cur"></span></div>
+        </div>
+      </div>
+      <div class="clp-output" id="clp-output">
+        <div class="clp-file-icon">PDF</div>
+        <div>
+          <div class="clp-file-name">pete_torres_resume.pdf<span class="clp-new">NEW</span></div>
+          <div class="clp-file-meta">2 pages &bull; 847 words &bull; generated just now</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
   <!-- SHEETS POPUP -->
   <div class="sh-overlay" id="sh-overlay">
     <div class="sh-box">
@@ -963,12 +1024,53 @@
     document.getElementById('sh-close').addEventListener('click', closeSheets);
     document.getElementById('sh-overlay').addEventListener('click', e => { if (e.target === e.currentTarget) closeSheets(); });
 
-    document.addEventListener('keydown', e => { if (e.key === 'Escape') { closeAts(); closeSheets(); } });
+    function openCli() {
+      document.getElementById('clp-cmd').textContent = '';
+      ['clp-l1','clp-l2','clp-l3','clp-l4','clp-l5','clp-l6','clp-prog'].forEach(id => {
+        const el = document.getElementById(id); el.style.opacity = '0'; el.classList.remove('show');
+      });
+      document.getElementById('clp-prog-bar').innerHTML = '';
+      document.getElementById('clp-output').classList.remove('show');
+      document.getElementById('clp-overlay').classList.add('open');
+      document.body.style.overflow = 'hidden';
+      const cmd = '$ python cv_generator.py';
+      const cmdEl = document.getElementById('clp-cmd');
+      let ci = 0;
+      const typeIv = setInterval(() => { cmdEl.textContent = cmd.slice(0, ++ci); if (ci >= cmd.length) clearInterval(typeIv); }, 38);
+      const afterCmd = cmd.length * 38 + 250;
+      ['clp-l1','clp-l2','clp-l3','clp-l4'].forEach((id, i) => {
+        setTimeout(() => { const el = document.getElementById(id); el.style.opacity='1'; el.classList.add('show'); }, afterCmd + i*290);
+      });
+      const progStart = afterCmd + 4*290 + 160;
+      setTimeout(() => {
+        const prog = document.getElementById('clp-prog'); prog.style.opacity = '1';
+        const total = 20; let n = 0;
+        const piv = setInterval(() => {
+          n++;
+          document.getElementById('clp-prog-bar').innerHTML =
+            `<span style="color:#4ade80">${'█'.repeat(n)}${'░'.repeat(total-n)}</span><span style="color:#52525b"> ${Math.round(n/total*100)}%</span>`;
+          if (n >= total) clearInterval(piv);
+        }, 52);
+      }, progStart);
+      const doneStart = progStart + 20*52 + 180;
+      setTimeout(() => { const el = document.getElementById('clp-l5'); el.style.opacity='1'; el.classList.add('show'); }, doneStart);
+      setTimeout(() => { const el = document.getElementById('clp-l6'); el.style.opacity='1'; el.classList.add('show'); }, doneStart + 320);
+      setTimeout(() => document.getElementById('clp-output').classList.add('show'), doneStart + 720);
+    }
+    function closeCli() {
+      document.getElementById('clp-overlay').classList.remove('open');
+      document.body.style.overflow = '';
+    }
+    document.getElementById('clp-close').addEventListener('click', closeCli);
+    document.getElementById('clp-overlay').addEventListener('click', e => { if (e.target === e.currentTarget) closeCli(); });
+
+    document.addEventListener('keydown', e => { if (e.key === 'Escape') { closeAts(); closeSheets(); closeCli(); } });
 
     document.querySelectorAll('.pcard[data-demo]').forEach(card => {
       card.addEventListener('click', () => {
         if (card.dataset.demo === 'ats') { openAts(); return; }
         if (card.dataset.demo === 'sheets') { openSheets(); return; }
+        if (card.dataset.demo === 'cli') { openCli(); return; }
         if (card.classList.contains('demo-open')) return;
         const d = demos[card.dataset.demo];
         if (!d) return;
