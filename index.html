@@ -516,6 +516,30 @@
     .bj-pay-v.up { color:#22c55e; }
     .bj-pay-l { font-size:0.6rem; text-transform:uppercase; letter-spacing:0.08em; color:#bbb; font-weight:600; margin-top:0.1rem; }
 
+    /* CONNECT FOUR POPUP */
+    .cfu-overlay { position:fixed; inset:0; z-index:800; display:flex; align-items:center; justify-content:center; background:rgba(28,28,30,0.52); opacity:0; visibility:hidden; transition:opacity 0.25s,visibility 0.25s; }
+    .cfu-overlay.open { opacity:1; visibility:visible; }
+    .cfu-box { background:#fff; border-radius:20px; padding:2rem; width:min(520px,92vw); max-height:88vh; overflow-y:auto; box-shadow:0 24px 64px rgba(0,0,0,0.18); transform:scale(0.93); transition:transform 0.28s cubic-bezier(0.32,0.72,0,1); }
+    .cfu-overlay.open .cfu-box { transform:scale(1); }
+    .cfu-mhdr { display:flex; align-items:center; justify-content:space-between; margin-bottom:1.1rem; }
+    .cfu-mtitle { font-size:1rem; font-weight:700; color:#1c1c1e; }
+    .cfu-mclose { width:32px; height:32px; border-radius:8px; border:1.5px solid #e8e4de; background:transparent; cursor:pointer; font-size:1rem; color:#888; display:flex; align-items:center; justify-content:center; transition:color 0.15s,border-color 0.15s,background 0.15s; }
+    .cfu-mclose:hover { color:#e05c2e; border-color:#e05c2e; background:#fef3ee; }
+    .cfu-turn { display:flex; align-items:center; gap:0.55rem; font-size:0.82rem; font-weight:600; color:#1c1c1e; min-height:1.5rem; margin-bottom:0.6rem; }
+    .cfu-turn-dot { width:13px; height:13px; border-radius:50%; flex-shrink:0; transition:background 0.2s; }
+    .cfu-col-row { display:grid; grid-template-columns:repeat(7,1fr); gap:5px; padding:0 8px; margin-bottom:3px; }
+    .cfu-col-n { text-align:center; font-size:0.62rem; font-weight:700; color:#bbb; }
+    .cfu-board { display:grid; grid-template-columns:repeat(7,1fr); gap:5px; background:#1e40af; border-radius:14px; padding:8px; }
+    .cfu-cell { aspect-ratio:1; border-radius:50%; background:#bfdbfe; }
+    .cfu-cell.red    { background:#ef4444; }
+    .cfu-cell.yellow { background:#fbbf24; }
+    @keyframes cfDrop { 0%{transform:translateY(var(--drop))} 75%{transform:translateY(6px)} 88%{transform:translateY(-3px)} 100%{transform:translateY(0)} }
+    .cfu-cell.dropping { animation:cfDrop 400ms cubic-bezier(0.33,1,0.68,1) forwards; }
+    @keyframes cfWin { 0%,100%{transform:scale(1)} 50%{transform:scale(1.14);box-shadow:0 0 14px rgba(239,68,68,0.7)} }
+    .cfu-cell.win { animation:cfWin 0.5s ease-in-out infinite; }
+    .cfu-status { text-align:center; margin-top:1rem; font-size:0.92rem; font-weight:700; color:#ef4444; opacity:0; }
+    .cfu-status.show { animation:dmFade 0.4s ease forwards; }
+
     @media (max-width:768px) {
       .hero { grid-template-columns:1fr; }
       .hero-stats { display:none; }
@@ -772,6 +796,26 @@
         <div class="ats-rec"><span class="ats-rec-dot"></span>Add Docker or containerization experience to your Skills section.</div>
         <div class="ats-rec"><span class="ats-rec-dot"></span>Mention AWS, GCP, or cloud deployment to address missing keywords.</div>
       </div>
+    </div>
+  </div>
+
+  <!-- CONNECT FOUR POPUP -->
+  <div class="cfu-overlay" id="cfu-overlay">
+    <div class="cfu-box">
+      <div class="cfu-mhdr">
+        <span class="cfu-mtitle">Connect Four</span>
+        <button class="cfu-mclose" id="cfu-close">&#10005;</button>
+      </div>
+      <div class="cfu-turn">
+        <div class="cfu-turn-dot" id="cfu-dot"></div>
+        <span id="cfu-turn-text"></span>
+      </div>
+      <div class="cfu-col-row">
+        <div class="cfu-col-n">1</div><div class="cfu-col-n">2</div><div class="cfu-col-n">3</div>
+        <div class="cfu-col-n">4</div><div class="cfu-col-n">5</div><div class="cfu-col-n">6</div><div class="cfu-col-n">7</div>
+      </div>
+      <div class="cfu-board" id="cfu-board"></div>
+      <div class="cfu-status" id="cfu-status">Red wins &mdash; 4 in a row!</div>
     </div>
   </div>
 
@@ -1173,7 +1217,63 @@
     document.getElementById('bj-close').addEventListener('click', closeBj);
     document.getElementById('bj-overlay').addEventListener('click', e => { if (e.target === e.currentTarget) closeBj(); });
 
-    document.addEventListener('keydown', e => { if (e.key === 'Escape') { closeAts(); closeSheets(); closeCli(); closeBj(); } });
+    function openCfu() {
+      const board = document.getElementById('cfu-board');
+      board.innerHTML = '';
+      for (let r = 0; r < 6; r++)
+        for (let c = 0; c < 7; c++) {
+          const cell = document.createElement('div');
+          cell.className = 'cfu-cell'; cell.id = `cfu-${r}-${c}`;
+          board.appendChild(cell);
+        }
+      document.getElementById('cfu-dot').style.background = '#ef4444';
+      document.getElementById('cfu-turn-text').textContent = "Red's turn";
+      document.getElementById('cfu-status').classList.remove('show');
+      document.getElementById('cfu-overlay').classList.add('open');
+      document.body.style.overflow = 'hidden';
+      const moves = [
+        [5,0,'red',   '#fbbf24',"Yellow's turn"],
+        [5,4,'yellow','#ef4444',"Red's turn"],
+        [5,1,'red',   '#fbbf24',"Yellow's turn"],
+        [4,1,'yellow','#ef4444',"Red's turn"],
+        [5,2,'red',   '#fbbf24',"Yellow's turn"],
+        [4,2,'yellow','#ef4444',"Red's turn"],
+        [5,3,'red',   null, ''],
+      ];
+      moves.forEach(([r, c, color, nextBg, nextLabel], i) => {
+        setTimeout(() => {
+          const cell = document.getElementById(`cfu-${r}-${c}`);
+          const dropPx = 8 + r * 63 + 85;
+          const dur = Math.round(210 + (r / 5) * 270);
+          cell.style.setProperty('--drop', '-' + dropPx + 'px');
+          cell.style.animationDuration = dur + 'ms';
+          cell.classList.add(color, 'dropping');
+          if (nextBg) {
+            document.getElementById('cfu-dot').style.background = nextBg;
+            document.getElementById('cfu-turn-text').textContent = nextLabel;
+          }
+        }, 300 + i * 500);
+      });
+      setTimeout(() => {
+        [[5,0],[5,1],[5,2],[5,3]].forEach(([r,c]) => {
+          const cell = document.getElementById(`cfu-${r}-${c}`);
+          cell.classList.remove('dropping');
+          void cell.offsetWidth;
+          cell.classList.add('win');
+        });
+        document.getElementById('cfu-dot').style.background = 'transparent';
+        document.getElementById('cfu-turn-text').textContent = '';
+        document.getElementById('cfu-status').classList.add('show');
+      }, 300 + moves.length * 500 + 200);
+    }
+    function closeCfu() {
+      document.getElementById('cfu-overlay').classList.remove('open');
+      document.body.style.overflow = '';
+    }
+    document.getElementById('cfu-close').addEventListener('click', closeCfu);
+    document.getElementById('cfu-overlay').addEventListener('click', e => { if (e.target === e.currentTarget) closeCfu(); });
+
+    document.addEventListener('keydown', e => { if (e.key === 'Escape') { closeAts(); closeSheets(); closeCli(); closeBj(); closeCfu(); } });
 
     document.querySelectorAll('.pcard[data-demo]').forEach(card => {
       card.addEventListener('click', () => {
@@ -1181,6 +1281,7 @@
         if (card.dataset.demo === 'sheets') { openSheets(); return; }
         if (card.dataset.demo === 'cli') { openCli(); return; }
         if (card.dataset.demo === 'blackjack') { openBj(); return; }
+        if (card.dataset.demo === 'connectfour') { openCfu(); return; }
         if (card.classList.contains('demo-open')) return;
         const d = demos[card.dataset.demo];
         if (!d) return;
