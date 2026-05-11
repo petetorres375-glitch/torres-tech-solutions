@@ -126,6 +126,16 @@
 
     /* SERVICES */
     .services { padding:4rem 2.5rem; background:#fafafa; }
+    .hiw { padding:4rem 2.5rem; background:#fff; border-top:1px solid #e8e4de; }
+    .hiw-steps { display:grid; grid-template-columns:repeat(3,1fr); gap:2rem; position:relative; margin-bottom:1.75rem; }
+    .hiw-steps::before { content:''; position:absolute; top:27px; left:calc(16.66% + 1.5rem); right:calc(16.66% + 1.5rem); height:1px; background:linear-gradient(90deg,#e8e4de,#e05c2e 50%,#e8e4de); }
+    .hiw-step { opacity:0; }
+    .hiw-step.visible { animation:fadeUp 0.5s ease forwards; }
+    .hiw-num { width:54px; height:54px; border-radius:12px; background:#fff; border:1.5px solid #e8e4de; display:flex; align-items:center; justify-content:center; font-size:1rem; font-weight:800; color:#e05c2e; margin-bottom:1rem; position:relative; z-index:1; }
+    .hiw-title { font-size:0.95rem; font-weight:700; color:#1c1c1e; margin-bottom:0.4rem; }
+    .hiw-desc { font-size:0.84rem; color:#999; line-height:1.65; }
+    .hiw-note { padding:1rem 1.25rem; background:#fafafa; border:1px solid #e8e4de; border-radius:10px; font-size:0.78rem; color:#888; line-height:1.65; }
+    .hiw-note strong { color:#1c1c1e; }
     .section-header { margin-bottom:2.25rem; }
     .section-tag {
       font-size:0.72rem; font-weight:700; letter-spacing:0.1em;
@@ -669,6 +679,9 @@
       .nav-links { display:none; }
       .hero { padding:3rem 1.25rem; }
       .services { padding:3rem 1.25rem; }
+      .hiw { padding:3rem 1.25rem; }
+      .hiw-steps { grid-template-columns:1fr; }
+      .hiw-steps::before { display:none; }
       .portfolio { padding:3rem 1.25rem; }
       .portfolio-grid { grid-template-columns:repeat(2,1fr); }
       .certifications { padding:2rem 1.25rem; }
@@ -756,6 +769,32 @@
         <div class="card-price">Starting at $75</div>
       </div>
     </div>
+  </section>
+
+  <section class="hiw">
+    <div class="section-header">
+      <p class="section-tag">Process</p>
+      <h2>How it works</h2>
+      <p class="section-sub">Simple, transparent, and no surprises.</p>
+    </div>
+    <div class="hiw-steps">
+      <div class="hiw-step">
+        <div class="hiw-num">01</div>
+        <div class="hiw-title">Tell me what you need</div>
+        <div class="hiw-desc">No tech jargon required. Just describe your project, problem, or goal and I'll handle the rest.</div>
+      </div>
+      <div class="hiw-step">
+        <div class="hiw-num">02</div>
+        <div class="hiw-title">I build it</div>
+        <div class="hiw-desc">Using AI-assisted development, I deliver clean, working solutions fast. You'll know exactly what you're getting before I start.</div>
+      </div>
+      <div class="hiw-step">
+        <div class="hiw-num">03</div>
+        <div class="hiw-title">You get the result</div>
+        <div class="hiw-desc">Receive a fully working tool, script, or website — delivered on time, at the agreed price.</div>
+      </div>
+    </div>
+    <div class="hiw-note"><strong>Ownership:</strong> All scripts, code, and tools remain the intellectual property of Torres Tech Remote unless otherwise agreed in writing prior to the start of the project.</div>
   </section>
 
   <section class="portfolio">
@@ -1269,7 +1308,7 @@
     const observer = new IntersectionObserver(entries => {
       entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
     }, { threshold: 0.15 });
-    document.querySelectorAll('.stat-card, .card, .pcard').forEach(el => observer.observe(el));
+    document.querySelectorAll('.stat-card, .card, .pcard, .hiw-step').forEach(el => observer.observe(el));
 
     // close button HTML injected into every demo
     const closeBtn = '<button class="pcd-close" aria-label="Back">&#10005;</button>';
