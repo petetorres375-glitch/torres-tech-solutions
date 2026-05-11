@@ -357,6 +357,69 @@
     .mlb-sv { font-size:0.9rem; font-weight:700; }
     .mlb-sl { font-size:0.58rem; color:#888; text-transform:uppercase; letter-spacing:0.08em; margin-top:0.1rem; }
 
+    /* ATS REPORT POPUP */
+    .ats-overlay {
+      position:fixed; inset:0; z-index:800;
+      display:flex; align-items:center; justify-content:center;
+      background:rgba(28,28,30,0.52);
+      opacity:0; visibility:hidden; transition:opacity 0.25s, visibility 0.25s;
+    }
+    .ats-overlay.open { opacity:1; visibility:visible; }
+    .ats-box {
+      background:#fff; border-radius:20px; padding:2rem;
+      width:min(620px,92vw); max-height:88vh; overflow-y:auto;
+      box-shadow:0 24px 64px rgba(0,0,0,0.18);
+      transform:scale(0.93); transition:transform 0.28s cubic-bezier(0.32,0.72,0,1);
+    }
+    .ats-overlay.open .ats-box { transform:scale(1); }
+    .ats-mhdr { display:flex; align-items:center; justify-content:space-between; margin-bottom:1.75rem; }
+    .ats-mtitle { font-size:1rem; font-weight:700; color:#1c1c1e; }
+    .ats-mclose {
+      width:32px; height:32px; border-radius:8px; border:1.5px solid #e8e4de;
+      background:transparent; cursor:pointer; font-size:1rem; color:#888;
+      display:flex; align-items:center; justify-content:center; transition:color 0.15s,border-color 0.15s,background 0.15s;
+    }
+    .ats-mclose:hover { color:#e05c2e; border-color:#e05c2e; background:#fef3ee; }
+
+    .ats-top { display:grid; grid-template-columns:auto 1fr; gap:2rem; align-items:center; margin-bottom:2rem; }
+    .ats-ring-wrap { position:relative; width:120px; height:120px; flex-shrink:0; }
+    .ats-ring-wrap svg { transform:rotate(-90deg); }
+    .ats-ring-track { fill:none; stroke:#f5f4f2; stroke-width:10; }
+    .ats-ring-fill  { fill:none; stroke:#e05c2e; stroke-width:10; stroke-linecap:round; stroke-dasharray:340; stroke-dashoffset:340; }
+    .ats-ring-lbl {
+      position:absolute; inset:0; display:flex; flex-direction:column;
+      align-items:center; justify-content:center; pointer-events:none;
+    }
+    .ats-ring-pct { font-size:1.6rem; font-weight:800; color:#1c1c1e; font-family:'Fraunces',serif; line-height:1; }
+    .ats-ring-sub { font-size:0.58rem; font-weight:700; letter-spacing:0.08em; text-transform:uppercase; color:#bbb; margin-top:0.2rem; }
+    .ats-summary { display:flex; flex-direction:column; gap:0.65rem; }
+    .ats-sum-row { display:flex; align-items:center; justify-content:space-between; }
+    .ats-sum-l { font-size:0.82rem; color:#888; }
+    .ats-sum-v { font-size:0.82rem; font-weight:700; color:#1c1c1e; }
+    .ats-badge {
+      display:inline-flex; align-items:center; gap:0.3rem;
+      background:#fef3ee; color:#c44d24; border:1px solid #f5c4ad;
+      border-radius:50px; padding:0.22rem 0.7rem; font-size:0.73rem; font-weight:700;
+    }
+    .ats-kw-hdr { font-size:0.68rem; font-weight:700; letter-spacing:0.1em; text-transform:uppercase; color:#bbb; margin-bottom:0.75rem; }
+    .ats-kw-grid { display:grid; grid-template-columns:1fr 1fr; gap:0.5rem; margin-bottom:1.5rem; }
+    .ats-kw-item {
+      display:flex; align-items:center; gap:0.5rem; font-size:0.85rem; font-weight:600;
+      padding:0.45rem 0.75rem; border-radius:8px; opacity:0;
+    }
+    .ats-kw-item.show { animation:dmFade 0.3s ease forwards; }
+    .ats-kw-item.match { background:#f0fdf4; color:#166534; }
+    .ats-kw-item.miss  { background:#fef2f2; color:#991b1b; }
+    .ats-kw-dot { width:7px; height:7px; border-radius:50%; flex-shrink:0; }
+    .match .ats-kw-dot { background:#22c55e; }
+    .miss  .ats-kw-dot { background:#ef4444; }
+    .ats-recs { background:#fafafa; border-radius:12px; padding:1rem 1.25rem; opacity:0; }
+    .ats-recs.show { animation:dmFade 0.4s ease forwards; }
+    .ats-recs-hdr { font-size:0.68rem; font-weight:700; letter-spacing:0.1em; text-transform:uppercase; color:#bbb; margin-bottom:0.65rem; }
+    .ats-rec { display:flex; align-items:flex-start; gap:0.5rem; font-size:0.83rem; color:#555; line-height:1.55; margin-bottom:0.4rem; }
+    .ats-rec:last-child { margin-bottom:0; }
+    .ats-rec-dot { width:5px; height:5px; border-radius:50%; background:#e05c2e; flex-shrink:0; margin-top:0.45rem; }
+
     @media (max-width:768px) {
       .hero { grid-template-columns:1fr; }
       .hero-stats { display:none; }
@@ -575,6 +638,47 @@
     <button class="bottom-cta">Start a Project &rarr;</button>
   </div>
 
+  <!-- ATS REPORT POPUP -->
+  <div class="ats-overlay" id="ats-overlay">
+    <div class="ats-box">
+      <div class="ats-mhdr">
+        <span class="ats-mtitle">ATS Compatibility Report</span>
+        <button class="ats-mclose" id="ats-close">&#10005;</button>
+      </div>
+      <div class="ats-top">
+        <div class="ats-ring-wrap">
+          <svg width="120" height="120" viewBox="0 0 120 120">
+            <circle class="ats-ring-track" cx="60" cy="60" r="54"/>
+            <circle class="ats-ring-fill"  cx="60" cy="60" r="54" id="ats-ring"/>
+          </svg>
+          <div class="ats-ring-lbl">
+            <span class="ats-ring-pct" id="ats-ring-pct">0%</span>
+            <span class="ats-ring-sub">Match</span>
+          </div>
+        </div>
+        <div class="ats-summary">
+          <div class="ats-sum-row"><span class="ats-sum-l">Keywords matched</span><span class="ats-sum-v">4 of 6</span></div>
+          <div class="ats-sum-row"><span class="ats-sum-l">Job title fit</span><span class="ats-sum-v">Python Developer</span></div>
+          <div class="ats-sum-row"><span class="ats-sum-l">Rating</span><span class="ats-badge">Strong Match</span></div>
+        </div>
+      </div>
+      <div class="ats-kw-hdr">Keyword Analysis</div>
+      <div class="ats-kw-grid">
+        <div class="ats-kw-item match" id="akw0"><span class="ats-kw-dot"></span>Python</div>
+        <div class="ats-kw-item miss"  id="akw1"><span class="ats-kw-dot"></span>Docker</div>
+        <div class="ats-kw-item match" id="akw2"><span class="ats-kw-dot"></span>Flask</div>
+        <div class="ats-kw-item miss"  id="akw3"><span class="ats-kw-dot"></span>AWS</div>
+        <div class="ats-kw-item match" id="akw4"><span class="ats-kw-dot"></span>REST API</div>
+        <div class="ats-kw-item match" id="akw5"><span class="ats-kw-dot"></span>SQL</div>
+      </div>
+      <div class="ats-recs" id="ats-recs">
+        <div class="ats-recs-hdr">Recommendations</div>
+        <div class="ats-rec"><span class="ats-rec-dot"></span>Add Docker or containerization experience to your Skills section.</div>
+        <div class="ats-rec"><span class="ats-rec-dot"></span>Mention AWS, GCP, or cloud deployment to address missing keywords.</div>
+      </div>
+    </div>
+  </div>
+
   <script>
     // scroll-in
     const observer = new IntersectionObserver(entries => {
@@ -732,8 +836,38 @@
 
     };
 
+    function openAts() {
+      const ring = document.getElementById('ats-ring');
+      ring.style.transition = 'none';
+      ring.style.strokeDashoffset = '340';
+      document.getElementById('ats-ring-pct').textContent = '0%';
+      document.querySelectorAll('.ats-kw-item').forEach(el => el.classList.remove('show'));
+      document.getElementById('ats-recs').classList.remove('show');
+      document.getElementById('ats-overlay').classList.add('open');
+      document.body.style.overflow = 'hidden';
+      setTimeout(() => {
+        ring.style.transition = 'stroke-dashoffset 1.3s cubic-bezier(0.4,0,0.2,1)';
+        ring.style.strokeDashoffset = '74.8';
+        let n = 0;
+        const iv = setInterval(() => {
+          n++; document.getElementById('ats-ring-pct').textContent = n + '%';
+          if (n >= 78) clearInterval(iv);
+        }, 16);
+      }, 120);
+      [0,1,2,3,4,5].forEach(i => setTimeout(() => document.getElementById('akw'+i).classList.add('show'), 420 + i*160));
+      setTimeout(() => document.getElementById('ats-recs').classList.add('show'), 420 + 6*160 + 200);
+    }
+    function closeAts() {
+      document.getElementById('ats-overlay').classList.remove('open');
+      document.body.style.overflow = '';
+    }
+    document.getElementById('ats-close').addEventListener('click', closeAts);
+    document.getElementById('ats-overlay').addEventListener('click', e => { if (e.target === e.currentTarget) closeAts(); });
+    document.addEventListener('keydown', e => { if (e.key === 'Escape') closeAts(); });
+
     document.querySelectorAll('.pcard[data-demo]').forEach(card => {
       card.addEventListener('click', () => {
+        if (card.dataset.demo === 'ats') { openAts(); return; }
         if (card.classList.contains('demo-open')) return;
         const d = demos[card.dataset.demo];
         if (!d) return;
