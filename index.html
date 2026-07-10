@@ -251,6 +251,24 @@
   .footer-links a:hover { color: var(--white); }
   .footer-copy { font-size: 12px; color: var(--gray-3); }
 
+  /* ── FAQ ── */
+  .faq-item { background: var(--white); border: 1px solid var(--divider); border-radius: var(--radius); margin-bottom: 10px; overflow: hidden; }
+  .faq-item summary {
+    list-style: none; cursor: pointer; padding: 16px 18px; font-size: 15px; font-weight: 600; color: var(--black);
+    display: flex; align-items: center; justify-content: space-between; gap: 12px;
+  }
+  .faq-item summary::-webkit-details-marker { display: none; }
+  .faq-item summary::after {
+    content: ''; flex-shrink: 0; width: 9px; height: 9px; margin-top: -4px;
+    border-right: 2px solid var(--gray-3); border-bottom: 2px solid var(--gray-3);
+    transform: rotate(45deg); transition: transform 0.2s;
+  }
+  .faq-item[open] summary::after { transform: rotate(-135deg); margin-top: 2px; }
+  .faq-item[open] summary { border-bottom: 1px solid var(--divider); }
+  .faq-answer { padding: 0 18px 16px; font-size: 14px; color: var(--gray-2); line-height: 1.65; }
+  .faq-col-personal .faq-item[open] summary { color: var(--orange-dark); }
+  .faq-col-business .faq-item[open] summary { color: var(--blue-dark); }
+
   /* ── Demo Overlays ── */
   .demo-overlay {
     position: fixed; inset: 0; z-index: 900;
@@ -410,6 +428,7 @@
       <li><a href="#business">Business</a></li>
       <li><a href="#how">How It Works</a></li>
       <li><a href="#services">Services</a></li>
+      <li><a href="#faq">FAQ</a></li>
       <li><a href="#about">About</a></li>
       <li><a href="#contact">Contact</a></li>
     </ul>
@@ -731,6 +750,84 @@
     </div>
     <div style="margin-top:32px;text-align:center;">
       <a href="#contact" style="display:inline-flex;align-items:center;gap:8px;background:var(--orange);color:var(--white);padding:13px 28px;border-radius:var(--radius);font-size:15px;font-weight:600;transition:background 0.15s;">Get a Quote →</a>
+    </div>
+  </div>
+</section>
+
+<!-- FAQ -->
+<section id="faq" style="padding:80px 24px;background:var(--white);border-top:1px solid var(--divider);">
+  <div class="container">
+    <div class="section-label">FAQ</div>
+    <h2 class="section-title">Common questions.</h2>
+    <p class="section-sub" style="margin-bottom:48px;">Everything you need to know about Workblox Personal and Business.</p>
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:40px;">
+
+      <div class="faq-col-personal">
+        <div class="app-pill app-pill-personal" style="margin-bottom:20px;"><div class="app-pill-dot app-pill-dot-orange"></div>Workblox Personal</div>
+
+        <details class="faq-item">
+          <summary>What's included?</summary>
+          <div class="faq-answer">Access to the full catalog of 7 Workblox Personal tools — Resume Builder, ATS Analyzer, Doc Analyzer, Workflow Builder, and the Linux/Mac/Windows Helpers. You pick which ones you want at signup, and can request to add more later from Settings — new additions go live once they're reviewed and approved. Removing a tool you already have is immediate.</div>
+        </details>
+        <details class="faq-item">
+          <summary>Do I need to install anything from an app store?</summary>
+          <div class="faq-answer">No. Workblox Personal installs directly to your phone or desktop as a Progressive Web App (PWA) straight from your browser — no App Store or Play Store required.</div>
+        </details>
+        <details class="faq-item">
+          <summary>What file types can I upload?</summary>
+          <div class="faq-answer">Native-text PDFs, TXT, and MD files are read directly. Scanned or photographed documents are supported too — the app falls back to OCR automatically, so you can snap a photo of a physical document and still get an analysis.</div>
+        </details>
+        <details class="faq-item">
+          <summary>Is my data private? What happens to my documents after I upload them?</summary>
+          <div class="faq-answer">Workblox Personal doesn't store your documents or their contents. Files are processed to generate your result and nothing is retained afterward. The only account information kept on file is your login credentials.</div>
+        </details>
+        <details class="faq-item">
+          <summary>What languages does it support?</summary>
+          <div class="faq-answer">The app interface is available in 24 languages, auto-detected from your device, so you can work in whichever language you're most comfortable in.</div>
+        </details>
+        <details class="faq-item">
+          <summary>Can I cancel anytime?</summary>
+          <div class="faq-answer">Yes. Cancel whenever you'd like — you'll keep full access through the end of your current billing period, with no additional charge after that.</div>
+        </details>
+      </div>
+
+      <div class="faq-col-business">
+        <div class="app-pill app-pill-business" style="margin-bottom:20px;"><div class="app-pill-dot app-pill-dot-blue"></div>Workblox Business</div>
+
+        <details class="faq-item">
+          <summary>What's included?</summary>
+          <div class="faq-answer">Access to the full catalog of 14 Workblox Business tools — Hiring Manager, Batch ATS Analyzer, Job Description Writer, Contract Analyzer, Proposal Generator, Customer Response Drafter, Review Request Email, Social Media Generator, Ad Copy Writer, Policy Generator, SOP Generator, Meeting Notes Cleaner, Business Email Drafter, and Contacts. You pick which ones you want at signup, and can request to add more later from Settings — new additions go live once they're reviewed and approved. Removing a tool you already have is immediate.</div>
+        </details>
+        <details class="faq-item">
+          <summary>Is this built for teams or solo operators?</summary>
+          <div class="faq-answer">Workblox Business is single-user — there are no team seats or per-seat pricing. It's built for solo business owners and managers who need enterprise-grade tools without enterprise overhead.</div>
+        </details>
+        <details class="faq-item">
+          <summary>How does the Batch ATS Analyzer work?</summary>
+          <div class="faq-answer">Upload up to 10 resumes at once and screen them all against a single job description in one pass.</div>
+        </details>
+        <details class="faq-item">
+          <summary>Does the Contract Analyzer give legal advice?</summary>
+          <div class="faq-answer">No. It reads an uploaded contract and returns a plain-language summary, a risk assessment, and the key clauses — the same way the Doc Analyzer works for general documents. It's a starting point for understanding what you're signing, not a substitute for a lawyer. Scanned or multi-page contracts can be uploaded as photos as well.</div>
+        </details>
+        <details class="faq-item">
+          <summary>Do you see or store the documents I upload?</summary>
+          <div class="faq-answer">No. Every document — contracts, resumes, anything — is processed to generate your result and nothing is retained afterward. Nothing is ever seen or stored on our end. The only account information kept is your login credentials.</div>
+        </details>
+        <details class="faq-item">
+          <summary>What happens to my Contacts data if I remove that tool?</summary>
+          <div class="faq-answer">Contacts is the one tool that stores data (your contact list), since it functions as a lightweight CRM. Turning it off just removes access — nothing is deleted. Your saved contacts are waiting for you if you request Contacts again later, once that request is approved.</div>
+        </details>
+        <details class="faq-item">
+          <summary>Does the app support other languages?</summary>
+          <div class="faq-answer">Yes. The app interface runs in 24 languages, auto-detected from your device, so you and your team can work in whichever language you're most comfortable in.</div>
+        </details>
+        <details class="faq-item">
+          <summary>Can I cancel anytime?</summary>
+          <div class="faq-answer">Yes. Cancel whenever you'd like — you'll keep full access through the end of your current billing period, with no additional charge after that.</div>
+        </details>
+      </div>
+
     </div>
   </div>
 </section>
